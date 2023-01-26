@@ -19,11 +19,12 @@ import java.util.UUID;
 @Slf4j
 @RequiredArgsConstructor
 @Component
+@Validated
 public class BankAccountMutation implements GraphQLMutationResolver {
 
     private final Clock clock;
 
-    public BankAccount createBankAccount(CreateBankAccountInput input, DataFetchingEnvironment environment) {
+    public BankAccount createBankAccount(@Valid CreateBankAccountInput input, DataFetchingEnvironment environment) {
         log.info("Creating a bank account for {}", input);
         return BankAccount.builder()
                 .id(UUID.randomUUID())
