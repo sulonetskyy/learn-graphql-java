@@ -1,0 +1,8 @@
+scalar NonNegativeInt
+scalar DateTime
+scalar Date
+
+# All available mutations
+type Mutation {
+    createBankAccount(input: CreateBankAccountInput!): BankAccount!
+}
