@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: learn-graphql-java
+
+server:
+  http2:
+    enabled: true
+
+graphql:
+  playground:
+    enabled: true
+    tabs:
+      - name: Bank Account query
+        query: classpath:playground/bank_account.graphql
+        variables: classpath:playground/bank_account_variables.json
