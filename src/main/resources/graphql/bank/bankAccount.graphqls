@@ -6,3 +6,20 @@ type BankAccount {
     createdOn: Date
     createdAt: DateTime
 }
+
+type BankAccountEdge {
+    cursor: String
+    node: BankAccount
+}
+
+type PageInfo {
+    startCursor: String!
+    endCursor: String!
+    hasPreviousPage: Boolean!
+    hasNextPage: Boolean!
+}
+
+type BankAccountConnection {
+    edges: [BankAccountEdge]
+    pageInfo: PageInfo!
+}

@@ -1,4 +1,5 @@
 # All available queries
 type Query {
     bankAccount(id: ID): BankAccount
+    bankAccounts(limit: Int!, after: String): BankAccountConnection
 }
