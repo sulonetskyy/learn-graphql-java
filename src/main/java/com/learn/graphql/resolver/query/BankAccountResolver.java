@@ -2,6 +2,7 @@ package com.learn.graphql.resolver.query;
 
 import com.learn.graphql.BankAccountRepository;
 import com.learn.graphql.connection.CursorUtil;
+import com.learn.graphql.context.CustomGraphQLContext;
 import com.learn.graphql.model.BankAccount;
 import com.learn.graphql.model.Currency;
 import graphql.kickstart.tools.GraphQLQueryResolver;
@@ -27,6 +28,9 @@ public class BankAccountResolver implements GraphQLQueryResolver {
 
     public BankAccount bankAccount(UUID id, DataFetchingEnvironment environment) {
         log.info("Retrieving bank account id: {}", id);
+
+        CustomGraphQLContext context = environment.getContext();
+        log.info("User ID: {}", context.getUserId());
 
         var requestedFields = environment.getSelectionSet().getFields().stream()
                 .map(SelectedField::getName)

@@ -15,3 +15,5 @@ graphql:
       - name: Bank Account query
         query: classpath:playground/bank_account.graphql
         variables: classpath:playground/bank_account_variables.json
+    headers:
+      "user_id": "test-user-id"
