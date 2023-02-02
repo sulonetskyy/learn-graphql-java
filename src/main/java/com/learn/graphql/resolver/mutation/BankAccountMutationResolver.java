@@ -20,7 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Component
 @Validated
-public class BankAccountMutation implements GraphQLMutationResolver {
+public class BankAccountMutationResolver implements GraphQLMutationResolver {
 
     private final Clock clock;
 

@@ -3,6 +3,7 @@ package com.learn.graphql.model;
 import lombok.Builder;
 import lombok.Value;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -17,4 +18,5 @@ public class BankAccount {
     List<Asset> assets;
     LocalDate createdOn;
     ZonedDateTime createdAt;
+    BigDecimal balance;
 }

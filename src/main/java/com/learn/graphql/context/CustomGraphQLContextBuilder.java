@@ -1,8 +1,11 @@
 package com.learn.graphql.context;
 
+import com.learn.graphql.context.dataloader.DataLoaderRegistryFactory;
 import graphql.kickstart.execution.context.GraphQLKickstartContext;
 import graphql.kickstart.servlet.context.GraphQLServletContextBuilder;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dataloader.DataLoaderRegistry;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +17,11 @@ import java.util.Map;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class CustomGraphQLContextBuilder implements GraphQLServletContextBuilder {
+
+    private final DataLoaderRegistryFactory dataLoaderRegistryFactory;
+
     @Override
     public GraphQLKickstartContext build(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
         var userId = httpServletRequest.getHeader("user_id");
@@ -23,7 +30,9 @@ public class CustomGraphQLContextBuilder implements GraphQLServletContextBuilder
         map.put(HttpServletRequest.class, httpServletRequest);
         map.put(HttpServletResponse.class, httpServletResponse);
 
-        return new CustomGraphQLContext(userId, GraphQLKickstartContext.of(map));
+        GraphQLKickstartContext context = GraphQLKickstartContext.of(dataLoaderRegistryFactory.create(userId), map);
+
+        return new CustomGraphQLContext(userId, context);
     }
 
     @Override

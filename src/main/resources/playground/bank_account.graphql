@@ -16,8 +16,13 @@ query GET_BANK_ACCOUNTS {
       node {
         id
         currency
+        client {
+          id
+          firstName
+        }
         createdAt
-        createdAt
+        createdOn
+        balance
       }
     }
     pageInfo {
