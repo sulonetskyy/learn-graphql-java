@@ -2,6 +2,7 @@ package com.learn.graphql.resolver;
 
 import com.learn.graphql.model.BankAccount;
 import com.learn.graphql.model.Client;
+import com.learn.graphql.util.CorrelationIdPropagationExecutor;
 import graphql.execution.DataFetcherResult;
 import graphql.kickstart.execution.error.GenericGraphQLError;
 import graphql.kickstart.tools.GraphQLResolver;
@@ -10,14 +11,15 @@ import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Slf4j
 @Component
 public class ClientResolver implements GraphQLResolver<BankAccount> {
-    private static final ExecutorService executorService =
-            Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    private static final Executor executor = CorrelationIdPropagationExecutor.wrap(
+            Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()));
 
 // DIRECT CALL
 //    public Client client(BankAccount bankAccount) {
@@ -40,7 +42,7 @@ public class ClientResolver implements GraphQLResolver<BankAccount> {
 //                            .lastName("Doe")
 //                            .build();
 //                },
-//                executorService
+//                executor
 //        );
 //    }
 //
@@ -59,7 +61,7 @@ public class ClientResolver implements GraphQLResolver<BankAccount> {
                             .error(new GenericGraphQLError("an error"))
                             .build();
                 },
-                executorService
+                executor
         );
     }
 }

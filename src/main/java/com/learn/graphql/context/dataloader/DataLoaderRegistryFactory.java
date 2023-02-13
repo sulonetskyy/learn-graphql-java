@@ -1,6 +1,7 @@
 package com.learn.graphql.context.dataloader;
 
 import com.learn.graphql.service.BalanceService;
+import com.learn.graphql.util.CorrelationIdPropagationExecutor;
 import lombok.RequiredArgsConstructor;
 import org.dataloader.DataLoader;
 import org.dataloader.DataLoaderFactory;
@@ -18,8 +19,8 @@ import java.util.concurrent.Executors;
 public class DataLoaderRegistryFactory {
     public static final String BALANCE_DATA_LOADER = "BALANCE_DATA_LOADER";
 
-    private static final Executor balanceThreadPool =
-            Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    private static final Executor executor = CorrelationIdPropagationExecutor.wrap(
+            Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()));
 
     private final BalanceService balanceService;
 
@@ -33,7 +34,7 @@ public class DataLoaderRegistryFactory {
         return DataLoaderFactory.newMappedDataLoader(accountIds ->
                 CompletableFuture.supplyAsync(
                         () -> balanceService.getBalanceFor(accountIds, userId),
-                        balanceThreadPool));
+                        executor));
     }
 
 // EXAMPLE OF THE OPTIONS READ FROM THE ENVIRONMENT
@@ -45,7 +46,7 @@ public class DataLoaderRegistryFactory {
 //                                    String context = environment.getContext();
 //                                    return balanceService.getBalanceFor(accountIds, userId);
 //                                },
-//                                balanceThreadPool),
+//                                executor),
 //                DataLoaderOptions.newOptions().setBatchLoaderContextProvider(
 //                        () -> { return "Any object: the context that can be read from the environment.getContext()";})
 //        );
