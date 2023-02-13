@@ -6,7 +6,8 @@ import org.slf4j.MDC;
 
 import java.util.concurrent.Executor;
 
-import static com.learn.graphql.instrumentation.RequestLoggingInstrumentation.CORRELATION_ID;
+import static com.learn.graphql.listener.LoggingListener.CORRELATION_ID;
+
 
 /**
  * Thread executor wrapper to put the correlation id into the thread.
