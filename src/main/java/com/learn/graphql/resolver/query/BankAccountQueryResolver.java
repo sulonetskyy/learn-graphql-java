@@ -14,6 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Component;
 
+import java.time.Clock;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -25,6 +28,7 @@ public class BankAccountQueryResolver implements GraphQLQueryResolver {
 
     private final BankAccountRepository bankAccountRepository;
     private final CursorUtil cursorUtil;
+    private final Clock clock;
 
     public BankAccount bankAccount(UUID id, DataFetchingEnvironment environment) {
         log.info("Retrieving bank account id: {}", id);
@@ -40,6 +44,8 @@ public class BankAccountQueryResolver implements GraphQLQueryResolver {
         return BankAccount.builder()
                 .id(id)
                 .currency(Currency.USD)
+                .createdOn(LocalDate.now(clock))
+                .createdAt(ZonedDateTime.now(clock))
                 .build();
     }
 
