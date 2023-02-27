@@ -1,5 +1,6 @@
 package com.learn.graphql.service;
 
+import com.learn.graphql.model.BankAccount;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +12,12 @@ import java.util.UUID;
 @Slf4j
 @Service
 public class BalanceService {
-    public Map<UUID, BigDecimal> getBalanceFor(Set<UUID> accountIds, String userId) {
+    public Map<UUID, BigDecimal> getBalanceFor(Map<UUID, BankAccount> accountIds, String userId) {
         log.info("Requesting bank account ids: {} for user id: {}", accountIds, userId);
+
+        // EXAMPLE
+        // var ids = accountIds.keySet();
+        // base on balance response -> do smthg
 
         // MOCKED DATA
         return Map.of(

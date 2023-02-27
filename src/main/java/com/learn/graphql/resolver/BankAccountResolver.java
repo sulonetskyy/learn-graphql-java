@@ -23,7 +23,7 @@ public class BankAccountResolver implements GraphQLResolver<BankAccount> {
                 .getDataLoaderRegistry()
                 .getDataLoader(DataLoaderRegistryFactory.BALANCE_DATA_LOADER);
 
-        return dataLoader.load(bankAccount.getId());
+        return dataLoader.load(bankAccount.getId(), bankAccount);
    }
 
 }

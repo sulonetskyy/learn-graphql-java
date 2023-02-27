@@ -31,9 +31,9 @@ public class DataLoaderRegistryFactory {
     }
 
     private DataLoader<UUID, BigDecimal> createBalanceDataLoader(String userId) {
-        return DataLoaderFactory.newMappedDataLoader(accountIds ->
+        return DataLoaderFactory.newMappedDataLoader((accountIds, environment) ->
                 CompletableFuture.supplyAsync(
-                        () -> balanceService.getBalanceFor(accountIds, userId),
+                        () -> balanceService.getBalanceFor(environment.getContext(), userId),
                         executor));
     }
 
