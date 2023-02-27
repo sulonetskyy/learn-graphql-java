@@ -2,10 +2,12 @@ package com.learn.graphql.exceptions;
 
 import graphql.GraphQLException;
 import graphql.kickstart.spring.error.ThrowableGraphQLError;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.validation.ConstraintViolationException;
+import java.nio.file.AccessDeniedException;
 
 @Component
 public class GraphqlExceptionHandler {
@@ -15,9 +17,14 @@ public class GraphqlExceptionHandler {
         return new ThrowableGraphQLError(e);
     }
 
+    @ExceptionHandler(AccessDeniedException.class)
+    public ThrowableGraphQLError handler(AccessDeniedException e) {
+        return new ThrowableGraphQLError(e, HttpStatus.FORBIDDEN.getReasonPhrase());
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public ThrowableGraphQLError handler(RuntimeException e) {
-        return new ThrowableGraphQLError(e, "Override the internal exception here");
+        return new ThrowableGraphQLError(e, HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());
     }
 
 }

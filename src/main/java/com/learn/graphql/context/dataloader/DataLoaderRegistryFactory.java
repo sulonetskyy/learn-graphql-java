@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.dataloader.DataLoader;
 import org.dataloader.DataLoaderFactory;
 import org.dataloader.DataLoaderRegistry;
+import org.springframework.security.concurrent.DelegatingSecurityContextExecutorService;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -20,7 +21,8 @@ public class DataLoaderRegistryFactory {
     public static final String BALANCE_DATA_LOADER = "BALANCE_DATA_LOADER";
 
     private static final Executor executor = CorrelationIdPropagationExecutor.wrap(
-            Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()));
+            new DelegatingSecurityContextExecutorService(
+            Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())));
 
     private final BalanceService balanceService;
 

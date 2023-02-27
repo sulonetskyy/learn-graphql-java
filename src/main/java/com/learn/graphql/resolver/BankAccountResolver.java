@@ -6,6 +6,7 @@ import graphql.kickstart.tools.GraphQLResolver;
 import graphql.schema.DataFetchingEnvironment;
 import lombok.extern.slf4j.Slf4j;
 import org.dataloader.DataLoader;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -16,6 +17,7 @@ import java.util.concurrent.CompletableFuture;
 @Component
 public class BankAccountResolver implements GraphQLResolver<BankAccount> {
 
+    @PreAuthorize("hasAnyAuthority('get:bank_account_balance')")
     public CompletableFuture<BigDecimal> balance(BankAccount bankAccount, DataFetchingEnvironment environment) {
         log.info("Retrieving balance for bank account id: {}", bankAccount.getId());
 

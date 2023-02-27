@@ -17,7 +17,9 @@ graphql:
         query: classpath:playground/bank_account.graphql
         variables: classpath:playground/bank_account_variables.json
     headers:
+      "Authorization": "Bearer TOKEN"
       "user_id": "test-user-id"
+      "user_roles": "get:bank_account,get:bank_account_balance"
 logging:
   pattern:
     # the value grabbed from the logging/logback/defaults.xml CONSOLE_LOG_PATTERN

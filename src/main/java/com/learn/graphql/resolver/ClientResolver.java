@@ -7,19 +7,20 @@ import graphql.execution.DataFetcherResult;
 import graphql.kickstart.execution.error.GenericGraphQLError;
 import graphql.kickstart.tools.GraphQLResolver;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.concurrent.DelegatingSecurityContextExecutorService;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Slf4j
 @Component
 public class ClientResolver implements GraphQLResolver<BankAccount> {
     private static final Executor executor = CorrelationIdPropagationExecutor.wrap(
-            Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()));
+            new DelegatingSecurityContextExecutorService(
+            Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())));
 
 // DIRECT CALL
 //    public Client client(BankAccount bankAccount) {
